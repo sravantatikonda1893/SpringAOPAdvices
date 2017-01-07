@@ -1,0 +1,26 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+"http://www.springfranework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<bean id="b" class="buisness.Bank" />
+	<bean id="las" class="services.LogAroundService" />
+	<bean id="dp" class="services.DepositPointcut"/>
+	
+	<!-- adding pointcut and service(Advice) to an advisor-->
+	<bean id="dpa" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+	<property name="advice" ref="las"></property>
+	<property name="pointcut" ref="dp"></property>
+	</bean>
+
+<!-- we can't add a service and a pointcut at the same time. we should add them to advisor(dpa)
+ and then we should add that to the proxy-->	
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="b"></property>
+		<property name="interceptorNames">
+			<list>
+				<value>dpa</value>
+			</list>
+		</property>
+	</bean>	
+		
+</beans>

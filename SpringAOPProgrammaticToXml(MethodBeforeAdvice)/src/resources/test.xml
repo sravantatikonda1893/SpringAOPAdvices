@@ -1,0 +1,22 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+"http://www.springfranework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<bean id="b" class="buisness.Bank" />
+	<!-- Service1 -->
+	<bean id="lbs" class="services.LogBeforeService" />
+	<!-- service2 -->
+	<bean id="las" class="services.LogAroundService" />
+
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<!-- to add a business -->
+		<property name="target" ref="b"></property>
+		<!-- To add services -->
+		<property name="interceptorNames">
+			<list>
+				<value>lbs</value>
+				<value>las</value>
+			</list>
+		</property>
+	</bean>
+</beans>
